@@ -1,0 +1,30 @@
+h1 {
+	font-family: 'Alegreya' ;
+}
+
+body {
+	font-family: 'Source Sans Pro' ;
+	width: 50%;
+	margin-left: 25%;
+	text-align: justify;
+	line-height: 1.7;
+	font-size: 18px;
+}
+
+input {
+	font-size: 18px;
+	text-align: center;
+}
+
+button {
+	font-size: 18px;
+	color: #fff;
+}
+
+#generate {
+	background-color: #09f;
+}
+
+#copy {
+	background-color: #0c6;
+}

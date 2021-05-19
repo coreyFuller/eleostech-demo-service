@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
+const path = require('path');
 
 // use the express-static middleware
 app.use(express.static("public"))
 
 // define the first route
 app.get("/", function (req, res) {
-  res.send("<h1>Hello World!</h1>")
+    res.sendFile(path.join(__dirname, '/public/index.html'));
 })
 
 app.get('/messages', (req, res) => {
