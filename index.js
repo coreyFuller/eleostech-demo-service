@@ -13,7 +13,8 @@ app.get('/messages', (req, res) => {
     res.send("<h1>recieved</h1>")
 })
 
-app.get('/authenticate/', (req, res) => {
+app.get('/authenticate/:token', (req, res) => {
+    console.log(req.params.token)
     res.send("<h1>recieved</h1>")
 })
 
