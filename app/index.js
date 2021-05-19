@@ -3,7 +3,7 @@ const app = express()
 const path = require('path');
 
 // use the express-static middleware
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname,"/public")))
 
 // define the first route
 app.get("/", function (req, res) {
