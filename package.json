@@ -2,7 +2,7 @@
   "name": "corey-integration",
   "version": "1.0.0",
   "description": "corey-integration",
-  "main": "index.js",
+  "main": "./app/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "airtable": "^0.11.0",
     "express": "^4.17.1"
   }
 }

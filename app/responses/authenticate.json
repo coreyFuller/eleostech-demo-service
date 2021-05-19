@@ -1,0 +1,15 @@
+{
+    "api_token": "ddb56eb8-1b39-11e5-9c63-f9bd05003d3f",
+    "full_name": "Ted Theodore Logan",
+    "web_token": "aeiou",
+    "dashboard": {
+    "logo_ref": "private/soothing_whale",
+    "dashboard_items": []
+    },
+    "menu": {
+    "menu_items": []
+    },
+    "custom": {
+    "My Special Property": "Some value."
+    }
+}

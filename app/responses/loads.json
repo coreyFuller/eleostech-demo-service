@@ -1,0 +1,742 @@
+[
+    {
+      "id": "1234441-PP",
+      "display_identifier": "1234441-PP",
+      "sort": 1,
+      "order_number": "1234441",
+      "dispatch": "PP",
+      "load_status": "PRE-PLAN",
+      "load_status_label": "Pre-plan",
+      "active": true,
+      "fields": [
+        {
+          "label": "Loaded Miles",
+          "value": "432"
+        },
+        {
+          "label": "Empty Miles",
+          "value": "256"
+        }
+      ],
+      "current": false,
+      "hazmat": true,
+      "customer_name": "Gordon Food Service",
+      "special_notes": "Ring the bell at the back door.",
+      "poi_search_layers": [
+        "INTERNAL-FUEL-NETWORK"
+      ],
+      "shipper": {
+        "stop_number": 1,
+        "stop_type": "Pickup",
+        "name": "Potato Farm, Inc.",
+        "address": "900 Commerce Parkway",
+        "city": "Greenwood",
+        "state": "IN",
+        "postal_code": "46143",
+        "location": {
+          "latitude": 39.606228,
+          "longitude": -86.066723
+        },
+        "actions": [
+          {
+            "type": "transaction-editor",
+            "label": "Arrived",
+            "properties": {
+              "form_code": "ARRIVED",
+              "data": {
+                "ORDER": "1234441",
+                "STOP": "1"
+              }
+            }
+          },
+          {
+            "type": "transaction-editor",
+            "label": "Report Bad Address",
+            "icon_ref": "globe",
+            "properties": {
+              "form_code": "BAD-ADDRESS",
+              "data": {
+                "ORDER": "1234441",
+                "STOP": "1"
+              }
+            },
+            "button_color": "#ff3b30"
+          }
+        ],
+        "product": "French Fries",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": null,
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "BOL12345123"
+          },
+          {
+            "label": "PO #",
+            "value": "11234"
+          }
+        ],
+        "contact": {
+          "name": "Bill",
+          "phone_number": "3178852001"
+        }
+      },
+      "stops": [
+        {
+          "stop_number": 2,
+          "stop_type": "Drop",
+          "name": "Sea Food Inc.",
+          "address": "86101 Needham Rd.",
+          "city": "Eugene",
+          "state": "OR",
+          "postal_code": "97401",
+          "location": {
+            "latitude": 44.0062112,
+            "longitude": -123.1362002
+          },
+          "actions": [
+            {
+              "type": "transaction-editor",
+              "label": "Arrived",
+              "properties": {
+                "form_code": "ARRIVED",
+                "data": {
+                  "ORDER": "1234441",
+                  "STOP": "2"
+                }
+              }
+            },
+            {
+              "type": "transaction-editor",
+              "label": "Report Bad Address",
+              "icon_ref": "globe",
+              "properties": {
+                "form_code": "BAD-ADDRESS",
+                "data": {
+                  "ORDER": "1234441",
+                  "STOP": "2"
+                }
+              },
+              "button_color": "#ff3b30"
+            }
+          ],
+          "product": "Shrimp",
+          "pieces": 1000,
+          "pallets": 0,
+          "time_window": {
+            "from": "2015-06-26T10:30:00.0000+00:00",
+            "to": "2015-06-27T17:16:00.0000+00:00"
+          },
+          "identifiers": [
+            {
+              "label": "Bill of Lading #",
+              "value": "BOL12345123"
+            },
+            {
+              "label": "PO #",
+              "value": "11234"
+            }
+          ],
+          "contact": {
+            "name": "Tom",
+            "phone_number": "8648881111"
+          }
+        }
+      ],
+      "consignee": {
+        "stop_number": 90,
+        "stop_type": "Drop",
+        "name": "Grocery Chain Inc. DC 7024",
+        "address": "24391 Emerson Rd.",
+        "city": "Sterling",
+        "state": "IL",
+        "postal_code": "61081",
+        "location": {
+          "latitude": 41.776425,
+          "longitude": -89.794478
+        },
+        "actions": [
+          {
+            "type": "transaction-editor",
+            "label": "Arrived",
+            "properties": {
+              "form_code": "ARRIVED",
+              "data": {
+                "ORDER": "1234441",
+                "STOP": "90"
+              }
+            }
+          },
+          {
+            "type": "transaction-editor",
+            "label": "Report Bad Address",
+            "icon_ref": "globe",
+            "properties": {
+              "form_code": "BAD-ADDRESS",
+              "data": {
+                "ORDER": "1234441",
+                "STOP": "90"
+              }
+            },
+            "button_color": "#ff3b30"
+          }
+        ],
+        "product": "Coffee",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": {
+          "to": "2015-06-27T22:58:00.0000+00:00",
+          "from": "2015-06-27T22:58:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "BOL12345"
+          },
+          {
+            "label": "CofA #",
+            "value": "123-111A"
+          },
+          {
+            "label": "Pickup #",
+            "value": "PP55123"
+          },
+          {
+            "label": "Finely ground?",
+            "value": "No"
+          }
+        ],
+        "contact": {
+          "name": "Horace G.",
+          "phone_number": "8885551212"
+        }
+      },
+      "custom": {
+        "customProperty1": "test",
+        "customProperty2": "test2"
+      },
+      "actions": [
+        {
+          "type": "transaction-editor",
+          "label": "Accept",
+          "icon_ref": "accept-load",
+          "properties": {
+            "form_code": "PRE-PLAN",
+            "data": {
+              "LOAD-NUMBER": "1234441",
+              "ACCEPT": "yes"
+            }
+          },
+          "button_color": "#4cd964"
+        },
+        {
+          "type": "transaction-editor",
+          "label": "Reject",
+          "icon_ref": "reject-load",
+          "properties": {
+            "form_code": "PRE-PLAN",
+            "data": {
+              "LOAD-NUMBER": "1234441",
+              "ACCEPT": "no"
+            }
+          },
+          "button_color": "#ff3b30"
+        },
+        {
+          "type": "transaction-editor",
+          "label": "Send Message",
+          "icon_ref": "messages",
+          "properties": {
+            "data": {
+              "LOAD-NUMBER": "1234441"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1234567-01",
+      "display_identifier": "1234567-01",
+      "sort": 2,
+      "order_number": "1234567",
+      "dispatch": "01",
+      "load_status": "DISPATCHED",
+      "load_status_label": "Dispatched",
+      "active": true,
+      "current": true,
+      "customer_name": "Eleos Food Services",
+      "special_notes": "Beware the guard dog.",
+      "poi_search_layers": [
+        "INTERNAL-FUEL-NETWORK"
+      ],
+      "stickers": [
+        {
+          "icon_ref": "flammable",
+          "color": "#e20015",
+          "label": "Freight is flammable"
+        },
+        {
+          "icon_ref": "generic_hazmat",
+          "label": "Freight is poisonous"
+        },
+        {
+          "icon_ref": "warning",
+          "label": "Driver must bring own locks"
+        }
+      ],
+      "shipper": {
+        "stop_number": 1,
+        "stop_type": "Pickup",
+        "name": "Potato Farm, Inc.",
+        "address": "900 Commerce Parkway",
+        "city": "Greenwood",
+        "state": "IN",
+        "postal_code": "46143",
+        "location": {
+          "latitude": 39.606228,
+          "longitude": -86.066723
+        },
+        "actions": [
+          {
+            "type": "transaction-editor",
+            "label": "Arrived",
+            "properties": {
+              "form_code": "ARRIVED",
+              "data": {
+                "ORDER": "1234567",
+                "STOP": "1"
+              }
+            }
+          },
+          {
+            "type": "transaction-editor",
+            "label": "Report Bad Address",
+            "icon_ref": "globe",
+            "properties": {
+              "form_code": "BAD-ADDRESS",
+              "data": {
+                "ORDER": "1234567",
+                "STOP": "1"
+              }
+            },
+            "button_color": "#ff3b30"
+          }
+        ],
+        "product": "Potato",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": {
+          "from": "2015-04-26T10:30:00.0000+00:00",
+          "to": "2015-04-27T17:16:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "BOL12345123"
+          },
+          {
+            "label": "PO #",
+            "value": "11234"
+          }
+        ],
+        "contact": {
+          "name": "Bill",
+          "phone_number": "3178852001"
+        }
+      },
+      "stops": [
+        {
+          "stop_number": 2,
+          "stop_type": "Drop",
+          "current": true,
+          "name": "Sea Food Inc.",
+          "address": "86101 Needham Rd.",
+          "city": "Eugene",
+          "state": "OR",
+          "postal_code": "97401",
+          "location": {
+            "latitude": 44.0062112,
+            "longitude": -123.1362002
+          },
+          "actions": [
+            {
+              "type": "transaction-editor",
+              "label": "Arrived",
+              "properties": {
+                "form_code": "ARRIVED",
+                "data": {
+                  "ORDER": "1234567",
+                  "STOP": "2"
+                }
+              }
+            },
+            {
+              "type": "transaction-editor",
+              "label": "Report Bad Address",
+              "icon_ref": "globe",
+              "properties": {
+                "form_code": "BAD-ADDRESS",
+                "data": {
+                  "ORDER": "1234567",
+                  "STOP": "2"
+                }
+              },
+              "button_color": "#ff3b30"
+            }
+          ],
+          "product": "Salmon",
+          "pieces": 1000,
+          "pallets": 0,
+          "time_window": {
+            "from": "2015-04-26T10:30:00.0000+00:00",
+            "to": "2015-04-27T17:16:00.0000+00:00"
+          },
+          "identifiers": [
+            {
+              "label": "Bill of Lading #",
+              "value": "BOL12345123"
+            },
+            {
+              "label": "PO #",
+              "value": "11234"
+            }
+          ],
+          "contact": {
+            "name": "Tom",
+            "phone_number": "8648881111"
+          }
+        }
+      ],
+      "consignee": {
+        "stop_number": 90,
+        "stop_type": "Drop",
+        "name": "Grocery Chain Inc. DC 7024",
+        "address": "24391 Emerson Rd",
+        "city": "Sterling",
+        "state": "IL",
+        "postal_code": "61081",
+        "location": {
+          "latitude": 41.776425,
+          "longitude": -89.794478
+        },
+        "actions": [
+          {
+            "type": "transaction-editor",
+            "label": "Arrived",
+            "properties": {
+              "form_code": "ARRIVED",
+              "data": {
+                "ORDER": "1234567",
+                "STOP": "90"
+              }
+            }
+          },
+          {
+            "type": "transaction-editor",
+            "label": "Report Bad Address",
+            "icon_ref": "globe",
+            "properties": {
+              "form_code": "BAD-ADDRESS",
+              "data": {
+                "ORDER": "1234567",
+                "STOP": "90"
+              }
+            },
+            "button_color": "#ff3b30"
+          }
+        ],
+        "product": "Peanut butter",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": {
+          "to": "2015-04-27T22:58:00.0000+00:00",
+          "from": "2015-04-27T22:58:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "BOL12345"
+          },
+          {
+            "label": "CofA #",
+            "value": "123-111A"
+          },
+          {
+            "label": "Pickup #",
+            "value": "PP55123"
+          },
+          {
+            "label": "Finely ground?",
+            "value": "No"
+          }
+        ],
+        "contact": {
+          "name": "Horace G.",
+          "phone_number": "8885551212"
+        }
+      },
+      "custom": {
+        "customProperty1": "test",
+        "customProperty2": "test2"
+      },
+      "actions": [
+        {
+          "type": "scan-flow",
+          "label": "Trip Documents",
+          "icon_ref": "camera",
+          "properties": {
+            "metadata_form_code": "DOCUMENT-METADATA",
+            "scan_type": "document",
+            "data": {
+              "LOAD-NUMBER": "1234567"
+            }
+          }
+        },
+        {
+          "type": "screen",
+          "label": "Report Accident",
+          "icon_ref": "accident",
+          "properties": {
+            "screen_code": "REPORT-ACCIDENT",
+            "data": {
+              "LOAD-NUMBER": "1234567"
+            }
+          }
+        },
+        {
+          "type": "transaction-editor",
+          "label": "Send Message",
+          "icon_ref": "messages",
+          "properties": {
+            "data": {
+              "LOAD-NUMBER": "1234567"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1234568-01",
+      "display_identifier": "1234568-01",
+      "sort": 3,
+      "order_number": "1234568",
+      "dispatch": "01",
+      "load_status": "EMPTY",
+      "load_status_label": "Empty",
+      "active": true,
+      "current": false,
+      "check_date": "2015-04-23T20:11:00.0000+00:00",
+      "customer_name": "Eleos Food Services",
+      "special_notes": "Check in at the gate when you arrive. You will need photo ID.",
+      "poi_search_layers": [
+        "INTERNAL-FUEL-NETWORK"
+      ],
+      "shipper": {
+        "stop_number": 1,
+        "stop_type": "Pickup",
+        "name": "Joe's Apple Stand",
+        "address": "1241 Avenue E",
+        "city": "Abilene",
+        "state": "TX",
+        "postal_code": "79603",
+        "location": {
+          "latitude": 32.4621631,
+          "longitude": -99.7122448
+        },
+        "product": "Apples",
+        "pieces": 17,
+        "pallets": 0,
+        "time_window": {
+          "from": "2015-04-21T10:30:00.0000+00:00",
+          "to": "2015-04-21T17:16:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "111111"
+          },
+          {
+            "label": "PO #",
+            "value": "909"
+          },
+          {
+            "label": "Warning",
+            "value": "Apples need to be stored in a cool location."
+          }
+        ],
+        "contact": {
+          "name": "Joe",
+          "phone_number": "7774841111"
+        }
+      },
+      "stops": [],
+      "consignee": {
+        "stop_number": 90,
+        "stop_type": "Drop",
+        "name": "Carolina Orchard",
+        "address": "116 Simpkins Rd",
+        "city": "Greenwood",
+        "state": "SC",
+        "postal_code": "29646",
+        "location": null,
+        "product": "Applesauce",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": {
+          "to": "2015-04-22T12:58:00.0000+00:00",
+          "from": "2015-04-22T22:58:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "111111"
+          }
+        ],
+        "contact": {
+          "name": "Carl",
+          "phone_number": "8642291111"
+        }
+      },
+      "custom": {},
+      "actions": [
+        {
+          "type": "scan-flow",
+          "label": "Trip Documents",
+          "icon_ref": "camera",
+          "properties": {
+            "metadata_form_code": "DOCUMENT-METADATA",
+            "scan_type": "document",
+            "data": {
+              "LOAD-NUMBER": "1234568"
+            }
+          }
+        },
+        {
+          "type": "transaction-editor",
+          "label": "Send Message",
+          "icon_ref": "messages",
+          "properties": {
+            "data": {
+              "LOAD-NUMBER": "1234568"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1234544-01",
+      "display_identifier": "1234544-01",
+      "sort": 4,
+      "order_number": "1234544",
+      "dispatch": "01",
+      "load_status": "EMPTY",
+      "load_status_label": "Empty",
+      "active": false,
+      "fields": [
+        {
+          "label": "Loaded Miles",
+          "value": "234"
+        },
+        {
+          "label": "Empty Miles",
+          "value": "653"
+        }
+      ],
+      "current": false,
+      "check_date": "2015-02-23T20:11:00.0000+00:00",
+      "customer_name": "Eleos Food Services",
+      "special_notes": "Check in at the gate when you arrive. You will need photo ID.",
+      "shipper": {
+        "stop_number": 1,
+        "stop_type": "Pickup",
+        "name": "Joe's Apple Stand",
+        "address": "1241 Avenue E",
+        "city": "Abilene",
+        "state": "TX",
+        "postal_code": "79603",
+        "location": {
+          "latitude": 32.4621631,
+          "longitude": -99.7122448
+        },
+        "product": "Apple Pie",
+        "pieces": 17,
+        "pallets": 0,
+        "time_window": {
+          "from": "2015-02-21T10:30:00.0000+00:00",
+          "to": "2015-02-21T17:16:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "111111"
+          },
+          {
+            "label": "PO #",
+            "value": "909"
+          },
+          {
+            "label": "Warning",
+            "value": "Keep shipment cool."
+          }
+        ],
+        "contact": {
+          "name": "Joe",
+          "phone_number": "7774841111"
+        }
+      },
+      "stops": [],
+      "consignee": {
+        "stop_number": 90,
+        "stop_type": "Drop",
+        "name": "Carolina Orchard",
+        "address": "116 Simpkins Rd",
+        "city": "Greenwood",
+        "state": "SC",
+        "postal_code": "29646",
+        "location": null,
+        "product": "Caramel apple",
+        "pieces": 1320,
+        "pallets": 0,
+        "time_window": {
+          "to": "2015-02-22T12:58:00.0000+00:00",
+          "from": "2015-02-22T22:58:00.0000+00:00"
+        },
+        "identifiers": [
+          {
+            "label": "Bill of Lading #",
+            "value": "111111"
+          }
+        ],
+        "contact": {
+          "name": "Carl",
+          "phone_number": "8642291111"
+        }
+      },
+      "custom": {},
+      "actions": [
+        {
+          "type": "scan-flow",
+          "label": "Trip Documents",
+          "icon_ref": "camera",
+          "properties": {
+            "metadata_form_code": "DOCUMENT-METADATA",
+            "scan_type": "document",
+            "data": {
+              "LOAD-NUMBER": "1234544"
+            }
+          }
+        },
+        {
+          "type": "transaction-editor",
+          "label": "Send Message",
+          "icon_ref": "messages",
+          "properties": {
+            "data": {
+              "LOAD-NUMBER": "1234544"
+            }
+          }
+        }
+      ]
+    }
+  ]

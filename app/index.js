@@ -14,17 +14,19 @@ app.get('/messages', (req, res) => {
 })
 
 app.get('/authenticate/:token', (req, res) => {
-    console.log(req.params.token)
-    res.send("<h1>recieved</h1>")
+    const token = req.params.token
+    const response = require('./responses/authenticate.json')
+    res.send(token)
 })
 
 app.get('/loads', (req, res) => {
-    res.send("<h1>recieved</h1>")
-
+    const response = require('./responses/loads.json')
+    res.send(response)
 })
 
-app.post('/messages', (req, res) => {
-    res.send("<h1>recieved</h1>")
+app.put('/messages', (req, res) => {
+    const response = require('./responses/messages.json')
+    res.send(response)
 })
 // start the server listening for requests
 app.listen(process.env.PORT || 3000, 
