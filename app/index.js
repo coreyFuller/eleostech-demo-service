@@ -2,11 +2,10 @@ const express = require('express')
 const app = express()
 const path = require('path');
 const bodyParser = require('body-parser')
-var json_parser = bodyParser.json()
+const { Pool, Query } = require('pg');
+const json_parser = bodyParser.json()
 require('dotenv').config()
 
-
-const { Pool, Query } = require('pg');
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -34,13 +33,20 @@ app.get("/", function (req, res) {
 })
 
 app.get('/messages/:handle', async (req, res) => {
+  try{
     const client = await pool.connect();
     const result = await client.query(`select body from message where handle='${req.params.handle}'`)
     console.log(result.rows)
     res.send(`<h1>recieved</h1> <p>${result.rows[0].body}</p>`)
+  }
+  catch(err){
+    console.error(err);
+    res.send("Error " + err);
+  }
 })
 
 app.get('/authenticate/:token', async (req, res) => {
+  try{
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM app_user');
     users = result.rows
@@ -55,6 +61,11 @@ app.get('/authenticate/:token', async (req, res) => {
         }
     }
     authorized ? res.send(200,user) : res.send(404,"user not found")
+  }
+  catch(err){
+      console.error(err);
+      res.send("Error " + err);
+  }
 })
 
 app.get('/loads', async (req, res) => {
@@ -63,13 +74,20 @@ app.get('/loads', async (req, res) => {
 
     // }
     // else {
+      try{
         const client = await pool.connect();
         const result = await client.query('SELECT * from load')
         res.send(result.rows)
+      }
+      catch(err){
+        console.error(err);
+        res.send("Error " + err);
+      }
     // }
 })
 
 app.put('/messages/:handle', json_parser, async (req, res) => {
+  try{
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
     body = req.body
@@ -77,8 +95,12 @@ app.put('/messages/:handle', json_parser, async (req, res) => {
         VALUES('${handle.handle}', '${body.direction}', '${body.username}', '${body.message_type}', '${body.body}', '${body.composed_at}', '${body.platform_received_at}'
         );`)
     res.send(handle)
+  }
+  catch(err){
+    console.error(err);
+    res.send("Error " + err);
+  }
 })
-
 
 app.listen(process.env.PORT || 3000, 
 	() => console.log("Server is running..."));
