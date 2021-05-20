@@ -13,7 +13,8 @@
     "airtable": "^0.11.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
-    "mocha": "^8.4.0"
+    "mocha": "^8.4.0",
+    "pg": "^8.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
