@@ -3,11 +3,12 @@ const app = express()
 const path = require('path');
 const bodyParser = require('body-parser')
 var json_parser = bodyParser.json()
+require('dotenv').config()
 
 
 const { Pool, Query } = require('pg');
 const pool = new Pool({
-  connectionString: 'postgres://qnjqlfzcyegljn:d0947409424c0a2dd4c0092331db643e328680a86e23726fa68e6b78fdf0e792@ec2-54-166-167-192.compute-1.amazonaws.com:5432/d10b1l3g8bqjoh',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
