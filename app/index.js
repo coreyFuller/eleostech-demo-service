@@ -4,6 +4,8 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
+const jwt = require('jwt-decode');
+const { default: jwtDecode } = require('jwt-decode');
 require('dotenv').config()
 
 const pool = new Pool({
@@ -52,20 +54,26 @@ app.get('/messages/:handle', async (req, res) => {
 
 app.get('/authenticate/:token', async (req, res) => {
   try{
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM app_user');
-    users = result.rows
-    const token = req.params.token
-    let authorized = false
-    let user = {}
-    for(let i = 0; i < users.length; i++){
-        if(users[i].api_token == token){
-            user = users[i]
-            authorized = true
-            break
-        }
+    // const client = await pool.connect();
+    // const result = await client.query('SELECT * FROM app_user');
+    // users = result.rows
+    // const token = req.params.token
+    // let authorized = false
+    // let user = {}
+    // for(let i = 0; i < users.length; i++){
+    //     if(users[i].api_token == token){
+    //         user = users[i]
+    //         authorized = true
+    //         break
+    //     }
+    // }
+    var decoded = jwtDecode(token)
+    var users = Object.values(decoded)
+    const response = { 
+      "api_token" : token,
+      "full_name" : users[0]
     }
-    authorized ? res.send(200, user) : res.send(404,"user not found")
+    res.send(200, response)
   }
   catch(err){
       console.error(err);
