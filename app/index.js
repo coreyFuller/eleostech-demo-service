@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const airtable = require('airtable')
 const bodyParser = require('body-parser')
 const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
@@ -33,6 +32,11 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, '/public/index.html'));
 })
 
+app.get('/messages', async (req, res) => {
+  const client = await pool.connect();
+  const result = await client.query(`select body from message`)
+  res.send(result.rows)
+})
 app.get('/messages/:handle', async (req, res) => {
   try{
     const client = await pool.connect();
