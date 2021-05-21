@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require('path');
+const airtable = require('airtable')
 const bodyParser = require('body-parser')
 const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
@@ -60,7 +61,7 @@ app.get('/authenticate/:token', async (req, res) => {
             break
         }
     }
-    authorized ? res.send(200,user) : res.send(404,"user not found")
+    authorized ? res.send(200, user) : res.send(404,"user not found")
   }
   catch(err){
       console.error(err);
@@ -90,7 +91,7 @@ app.put('/messages/:handle', json_parser, async (req, res) => {
   try{
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
-    body = req.body
+    const body = req.body
     client.query(`INSERT INTO message (handle, direction, username, message_type, body, composed_at, platform_received_at) 
         VALUES('${handle.handle}', '${body.direction}', '${body.username}', '${body.message_type}', '${body.body}', '${body.composed_at}', '${body.platform_received_at}'
         );`)
