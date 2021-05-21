@@ -74,7 +74,7 @@ app.get('/authenticate/:token', async (req, res) => {
       "api_token" : token,
       "full_name" : users[0]
     }
-    res.send(200, response)
+    res.send(200, token)
   }
   catch(err){
       console.error(err);
