@@ -54,6 +54,7 @@ app.get('/messages/:handle', async (req, res) => {
 
 app.get('/authenticate/:token', async (req, res) => {
   try{
+    console.debug(req)
     // const client = await pool.connect();
     // const result = await client.query('SELECT * FROM app_user');
     // users = result.rows
