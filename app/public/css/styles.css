@@ -6,6 +6,12 @@ html {
     padding: 10px 10px;
 }
 
+
+footer {
+    border-top: 2px solid black;
+    margin: 10px 10px;
+}
+
 h1 {
     text-align: center;    
 }
@@ -20,7 +26,6 @@ li {
     display: inline-block;
     text-align: center;
     padding: 16px;
-    flex-wrap: content;
     padding: 14px 16px;
     text-decoration: none
 }
@@ -40,7 +45,6 @@ ul {
     padding: 0;
     overflow: hidden;
     text-align: center;
-    border-bottom: 2px solid#312318;
 }
 
 section {
@@ -63,6 +67,7 @@ img {
     margin-right: auto;
     width: 50%;
     border-radius: 50%;
+    padding: 10px 10px;
 }
 
 #logo{ 
