@@ -6,6 +6,7 @@ const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
+const { decode } = require('punycode');
 require('dotenv').config()
 
 const pool = new Pool({
@@ -54,11 +55,10 @@ app.get('/messages/:handle', async (req, res) => {
 
 app.get('/authenticate/:token', async (req, res) => {
   try{
-    console.debug(req)
-    // const client = await pool.connect();
-    // const result = await client.query('SELECT * FROM app_user');
-    // users = result.rows
-    // const token = req.params.token
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM app_user');
+    users = result.rows
+    const token = req.params.token
     // let authorized = false
     // let user = {}
     // for(let i = 0; i < users.length; i++){
@@ -70,11 +70,12 @@ app.get('/authenticate/:token', async (req, res) => {
     // }
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
+    console.log(users)
     const response = { 
       "api_token" : token,
       "full_name" : users[0]
     }
-    res.send(200, token)
+    res.send(token)
   }
   catch(err){
       console.error(err);
