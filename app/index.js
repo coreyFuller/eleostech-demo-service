@@ -6,7 +6,6 @@ const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
-const { readSync } = require('fs');
 require('dotenv').config()
 
 const pool = new Pool({
@@ -52,6 +51,7 @@ app.get('/messages/:handle', async (req, res) => {
     const result = await client.query(`select body from message where handle='${req.params.handle}'`)
     console.log(result.rows)
     res.send(`<h1>recieved</h1> <p>${result.rows[0].body}</p>`)
+    client.release()
   }
   catch(err){
     console.error(err);
@@ -61,8 +61,6 @@ app.get('/messages/:handle', async (req, res) => {
 
 app.get('/authenticate/:token', async (req, res) => {
   try{
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM app_user'); 
     const token = req.params.token
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
@@ -83,6 +81,7 @@ app.get('/loads', async (req, res) => {
         const client = await pool.connect();
         const result = await client.query('SELECT * from load')
         res.send(result.rows)
+        client.release()
       }
       catch(err){
         console.error(err);
@@ -99,6 +98,7 @@ app.put('/messages/:handle', json_parser, async (req, res) => {
         VALUES('${handle.handle}', '${body.direction}', '${body.username}', '${body.message_type}', '${body.body}', '${body.composed_at}', '${body.platform_received_at}'
         );`)
     res.send(handle)
+    client.release()
   }
   catch(err){
     console.error(err);
