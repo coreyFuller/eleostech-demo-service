@@ -15,6 +15,8 @@ const pool = new Pool({
   }
 });
 
+app.use(express.static(path.join(__dirname,"/public")))
+
 app.get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
@@ -27,8 +29,6 @@ app.get('/db', async (req, res) => {
       res.send("Error " + err);
     }
   })
-
-app.use(express.static(path.join(__dirname,"/public")))
 
 app.get("/", function (req, res) {
   try{
