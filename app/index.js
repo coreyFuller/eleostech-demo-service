@@ -6,6 +6,7 @@ const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
+const { readSync } = require('fs');
 require('dotenv').config()
 
 const pool = new Pool({
@@ -18,7 +19,7 @@ const pool = new Pool({
 app.get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query('SELECT api_token FROM app_user');
+      const result = await client.query('SELECT NOW()');
       const results = { 'results': (result) ? result.rows : null};
       res.send(results)
       client.release();
@@ -31,7 +32,13 @@ app.get('/db', async (req, res) => {
 app.use(express.static(path.join(__dirname,"/public")))
 
 app.get("/", function (req, res) {
+  try{
     res.sendFile(path.join(__dirname, '/public/index.html'));
+  }
+  catch(err) {
+    console.log(err)
+    res.send("Error " + err);
+  }
 })
 
 app.get('/messages', async (req, res) => {
