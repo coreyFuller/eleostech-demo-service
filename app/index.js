@@ -6,7 +6,6 @@ const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
-const { decode } = require('punycode');
 require('dotenv').config()
 
 const pool = new Pool({
@@ -56,21 +55,10 @@ app.get('/messages/:handle', async (req, res) => {
 app.get('/authenticate/:token', async (req, res) => {
   try{
     const client = await pool.connect();
-    const result = await client.query('SELECT * FROM app_user');
-    users = result.rows
+    const result = await client.query('SELECT * FROM app_user'); 
     const token = req.params.token
-    // let authorized = false
-    // let user = {}
-    // for(let i = 0; i < users.length; i++){
-    //     if(users[i].api_token == token){
-    //         user = users[i]
-    //         authorized = true
-    //         break
-    //     }
-    // }
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
-    console.log(users)
     const response = { 
       "api_token" : token,
       "full_name" : users[1]
@@ -84,11 +72,6 @@ app.get('/authenticate/:token', async (req, res) => {
 })
 
 app.get('/loads', async (req, res) => {
-    // if(!req.headers.authorization){
-    //     res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-
-    // }
-    // else {
       try{
         const client = await pool.connect();
         const result = await client.query('SELECT * from load')
@@ -98,7 +81,6 @@ app.get('/loads', async (req, res) => {
         console.error(err);
         res.send("Error " + err);
       }
-    // }
 })
 
 app.put('/messages/:handle', json_parser, async (req, res) => {
