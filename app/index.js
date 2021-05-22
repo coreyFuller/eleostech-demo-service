@@ -89,8 +89,6 @@ app.get('/loads', async (req, res) => {
 
         base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
           if (err) { console.error(err); return; }
-          console.log('Retrieved', record);
-          console.log(record)
           var loads = record._rawJson.fields.Loads
           
           new_loads = []
