@@ -1,4 +1,4 @@
-![image](.\app\public\images\Eleos Logos\Main Logos\Web\Eleos_Logo_Worm_RGB.png)
+
 
 # Eleos Demo Service Integration
 
