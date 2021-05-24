@@ -84,7 +84,7 @@ app.get('/loads', async (req, res) => {
       try{
         const client = await pool.connect();
         const result = await client.query('SELECT * from load')
-        res.send(result.rows)
+        res.send([{}])
         client.release()
 
       //   base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
