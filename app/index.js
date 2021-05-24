@@ -10,6 +10,7 @@ const { default: jwtDecode } = require('jwt-decode');
 const Airtable = require('airtable');
 require('dotenv').config()
 
+
 var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
 
 const pool = new Pool({
@@ -44,6 +45,23 @@ app.get("/", function (req, res) {
   }
 })
 
+app.get('/payroll',  async (req, res) => {
+  try{
+    const client = await pool.connect();
+    const result = await client.query(`select * from paycheck`)
+    var rows = result.rows
+    var paychecks = []
+    for(x in rows){
+      const details = JSON.parse(rows[x].details)
+      paychecks.push({check_date: rows[x].check_date, amount : rows[x].amount, details_title : rows[x].details_title, details : details})
+    }
+    res.send(paychecks)
+  }
+  catch(err){
+    console.log(err)
+    res.send('Error ' + err)
+  }
+})
 app.get('/messages', async (req, res) => {
   const client = await pool.connect();
   const result = await client.query(`select body from message`)
