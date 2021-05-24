@@ -8,10 +8,18 @@ const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
 const Airtable = require('airtable');
+const { data } = require('autoprefixer');
 require('dotenv').config()
 
 var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
 
+const renameKey = (object, key, newKey) => {
+  const clonedObj = clone(object);
+  const targetKey = clonedObj[key];
+  delete clonedObj[key];
+  clonedObj[newKey] = targetKey;
+  return clonedObj;
+};
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -50,6 +58,7 @@ app.get('/messages', async (req, res) => {
   const result = await client.query(`select body from message`)
   res.send(result.rows)
 })
+
 app.get('/messages/:handle', async (req, res) => {
   try{
     const client = await pool.connect();
@@ -82,24 +91,25 @@ app.get('/authenticate/:token', async (req, res) => {
 
 app.get('/loads', async (req, res) => {
       try{
-        // const client = await pool.connect();
-        // const result = await client.query('SELECT * from load')
-        // res.send(result.rows)
-        // client.release()
+        const client = await pool.connect();
+        var result = await client.query('SELECT * from load')
+        var data = result.rows
+        res.send(result.rows)
+        client.release()
 
-        base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
-          if (err) { console.error(err); return; }
-          var loads = record._rawJson.fields.Loads
+      //   base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
+      //     if (err) { console.error(err); return; }
+      //     var loads = record._rawJson.fields.Loads
           
-          new_loads = []
-          for (const i in loads) {
-              base('Loads').find(loads[i], async function(err, record) {
-                  if (err) { console.error(err); return; }
-                  new_loads.push(await record._rawJson.fields)
-                  if (new_loads.length == loads.length) res.send(new_loads)
-              });
-          }
-      });
+      //     new_loads = []
+      //     for (const i in loads) {
+      //         base('Loads').find(loads[i], async function(err, record) {
+      //             if (err) { console.error(err); return; }
+      //             new_loads.push(await record._rawJson.fields)
+      //             if (new_loads.length == loads.length) res.send(new_loads)
+      //         });
+      //     }
+      // });
       
     }
       catch(err){
