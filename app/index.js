@@ -8,18 +8,9 @@ const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
 const Airtable = require('airtable');
-const { data } = require('autoprefixer');
 require('dotenv').config()
 
 var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
-
-const renameKey = (object, key, newKey) => {
-  const clonedObj = clone(object);
-  const targetKey = clonedObj[key];
-  delete clonedObj[key];
-  clonedObj[newKey] = targetKey;
-  return clonedObj;
-};
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -92,8 +83,7 @@ app.get('/authenticate/:token', async (req, res) => {
 app.get('/loads', async (req, res) => {
       try{
         const client = await pool.connect();
-        var result = await client.query('SELECT * from load')
-        var data = result.rows
+        const result = await client.query('SELECT * from load')
         res.send(result.rows)
         client.release()
 
