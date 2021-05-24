@@ -80,6 +80,28 @@ app.get('/authenticate/:token', async (req, res) => {
   }
 })
 
+
+app.get('/truck', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
+    var locations = []
+    var responses = []
+    const rows = result.rows
+    for(x in rows){
+      locations.push({latitude: rows[x].latitude, longitude: rows[x].longitude})
+      responses.push({summary: rows[x].summary, name : rows[x].truck_name, location : {latitude: rows[x].latitude, longitude: rows[x].longitude}})
+    }
+    if(responses.length > 0) res.send(responses[0])
+    else res.send({})
+  }
+  catch(err){
+    console.error(err)
+    res.send("Error " + err)
+  }
+})
+
+
 app.get('/loads', async (req, res) => {
       try{
         const client = await pool.connect();
