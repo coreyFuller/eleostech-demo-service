@@ -102,6 +102,30 @@ app.get('/truck', async (req, res) => {
 })
 
 
+app.get('/driver_status', async (req, res) => {
+  const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
+  try{
+    var responses = []
+    var hos_list = []
+    const client = await pool.connect();
+    const result = await client.query(query_string)
+    var rows = result.rows
+    for(x in rows){
+      hos_list.push({label : rows[x].label, value : rows[x].value, value_type : rows[x].value_type})
+    }
+    responses.push({driving: rows[x].driving, expires: rows[x].expires, hours_of_service: hos_list})
+    console.log(responses[0])
+    if(responses.length > 0) res.send(responses[0])
+    else res.send({})
+    client.release()    
+  }
+  catch(err) {
+    console.log(err)
+    res.send("Error " + err)
+  }
+})
+
+
 app.get('/loads', async (req, res) => {
       try{
         const client = await pool.connect();
