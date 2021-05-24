@@ -55,7 +55,7 @@ app.get('/payroll',  async (req, res) => {
       const details = JSON.parse(rows[x].details)
       paychecks.push({check_date: rows[x].check_date, amount : rows[x].amount, details_title : rows[x].details_title, details : details})
     }
-    if(paychecks.length > 0) res.send(paychecks[0])
+    if(paychecks.length > 0) res.send({paychecks : paychecks})
     else res.send({})
   }
   catch(err){
@@ -109,7 +109,7 @@ app.get('/truck', async (req, res) => {
     const rows = result.rows
     for(x in rows){
       locations.push({latitude: rows[x].latitude, longitude: rows[x].longitude})
-      responses.push({summary: rows[x].summary, name : rows[x].truck_name, location : {latitude: rows[x].latitude, longitude: rows[x].longitude}})
+      responses.push({summary: rows[x].summary, name : rows[x].truck_name, location : {latitude: Number(rows[x].latitude), longitude: Number(rows[x].longitude)}})
     }
     if(responses.length > 0) res.send(responses[0])
     else res.send({})
