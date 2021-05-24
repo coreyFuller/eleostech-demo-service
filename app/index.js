@@ -13,6 +13,13 @@ require('dotenv').config()
 
 var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
 
+authenticated = (header_key) => {
+  console.log(process.env.ELEOS_PLATFORM_KEY)
+  console.log(header_key)
+  if(header_key == process.env.ELEOS_PLATFORM_KEY) return true
+  else return false
+}
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -46,6 +53,9 @@ app.get("/", function (req, res) {
 })
 
 app.get('/payroll',  async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try{
     const client = await pool.connect();
     const result = await client.query(`select * from paycheck`)
@@ -65,6 +75,9 @@ app.get('/payroll',  async (req, res) => {
 })
 
 app.get('/todos', async(req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try {
     console.log(req.headers)
     const client = await pool.connect();
@@ -87,12 +100,18 @@ app.get('/todos', async(req, res) => {
 })
 
 app.get('/messages', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   const client = await pool.connect();
   const result = await client.query(`select body from message`)
   res.send(result.rows)
 })
 
 app.get('/messages/:handle', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try{
     const client = await pool.connect();
     const result = await client.query(`select body from message where handle='${req.params.handle}'`)
@@ -106,8 +125,10 @@ app.get('/messages/:handle', async (req, res) => {
 })
 
 app.get('/authenticate/:token', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try{
-    console.log(req.headers)
     const token = req.params.token
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
@@ -125,6 +146,9 @@ app.get('/authenticate/:token', async (req, res) => {
 
 
 app.get('/truck', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try {
     const client = await pool.connect();
     const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
@@ -146,6 +170,9 @@ app.get('/truck', async (req, res) => {
 
 
 app.get('/driver_status', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
   try{
     var responses = []
@@ -170,26 +197,14 @@ app.get('/driver_status', async (req, res) => {
 
 
 app.get('/loads', async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
       try{
         const client = await pool.connect();
         const result = await client.query('SELECT * from load')
         res.send(result.rows)
-        client.release()
-
-      //   base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
-      //     if (err) { console.error(err); return; }
-      //     var loads = record._rawJson.fields.Loads
-          
-      //     new_loads = []
-      //     for (const i in loads) {
-      //         base('Loads').find(loads[i], async function(err, record) {
-      //             if (err) { console.error(err); return; }
-      //             new_loads.push(await record._rawJson.fields)
-      //             if (new_loads.length == loads.length) res.send(new_loads)
-      //         });
-      //     }
-      // });
-      
+        client.release()      
     }
       catch(err){
         console.error(err);
@@ -198,6 +213,9 @@ app.get('/loads', async (req, res) => {
 })
 
 app.put('/messages/:handle', json_parser, async (req, res) => {
+  if(!authenticated(req.headers['eleos-platform-key'])){
+    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
+  }
   try{
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
