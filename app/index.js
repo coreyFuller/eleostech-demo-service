@@ -53,9 +53,6 @@ app.get("/", function (req, res) {
 })
 
 app.get('/payroll',  async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try{
     const client = await pool.connect();
     const result = await client.query(`select * from paycheck`)
@@ -75,9 +72,6 @@ app.get('/payroll',  async (req, res) => {
 })
 
 app.get('/todos', async(req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try {
     console.log(req.headers)
     const client = await pool.connect();
@@ -100,18 +94,12 @@ app.get('/todos', async(req, res) => {
 })
 
 app.get('/messages', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   const client = await pool.connect();
   const result = await client.query(`select body from message`)
   res.send(result.rows)
 })
 
 app.get('/messages/:handle', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try{
     const client = await pool.connect();
     const result = await client.query(`select body from message where handle='${req.params.handle}'`)
@@ -143,9 +131,6 @@ app.get('/authenticate/:token', async (req, res) => {
 
 
 app.get('/truck', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try {
     const client = await pool.connect();
     const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
@@ -167,9 +152,6 @@ app.get('/truck', async (req, res) => {
 
 
 app.get('/driver_status', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
   try{
     var responses = []
@@ -194,25 +176,19 @@ app.get('/driver_status', async (req, res) => {
 
 
 app.get('/loads', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
-      try{
-        const client = await pool.connect();
-        const result = await client.query('SELECT * from load')
-        res.send(result.rows)
-        client.release()      
+  try{
+      const client = await pool.connect();
+      const result = await client.query('SELECT * from load')
+      res.send(result.rows)
+      client.release()      
     }
-      catch(err){
+    catch(err){
         console.error(err);
         res.send("Error " + err);
       }
 })
 
 app.put('/messages/:handle', json_parser, async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try{
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
