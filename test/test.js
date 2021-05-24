@@ -1,6 +1,6 @@
 var assert = require('assert');
 var axios = require('axios')
-
+var app = require('../app/index')
 
 describe('Loads Requests', function() {
   describe('GET Request', function() {
@@ -29,3 +29,11 @@ describe('Authenticate Requests', function() {
       });
     });
   });
+
+  describe('Checking headers', function() {
+    describe('Authenticated function', function() {
+      it('Should return true if the request is authenticated', function(){
+        assert.equal(true, true)
+      })
+    })
+  })

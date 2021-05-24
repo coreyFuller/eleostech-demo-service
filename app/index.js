@@ -125,9 +125,6 @@ app.get('/messages/:handle', async (req, res) => {
 })
 
 app.get('/authenticate/:token', async (req, res) => {
-  if(!authenticated(req.headers['eleos-platform-key'])){
-    res.send(401, 'Unauthorized due to missing or invalid token and/or API key.')
-  }
   try{
     const token = req.params.token
     var decoded = jwtDecode(token)
