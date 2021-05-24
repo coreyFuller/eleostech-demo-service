@@ -63,6 +63,29 @@ app.get('/payroll',  async (req, res) => {
     res.send('Error ' + err)
   }
 })
+
+app.get('/todos', async(req, res) => {
+  try {
+    console.log(req.headers)
+    const client = await pool.connect();
+    const result = await client.query(`select * from todo`)
+    client.release()
+    const rows = result.rows
+    var response = []
+    for(x in rows){
+      const props = JSON.parse(rows[x].properties)
+      response.push({handle: rows[x].handle, type: rows[x].type, due_date: rows[x].due_date, name: rows[x].name, description : rows[x].description, properties: props})
+    }
+    if (response.length > 0) res.send(response)
+    else res.send([])
+  }
+  catch(err){
+    console.log(err)
+    res.send('Error ' + err)
+  }
+
+})
+
 app.get('/messages', async (req, res) => {
   const client = await pool.connect();
   const result = await client.query(`select body from message`)
@@ -84,6 +107,7 @@ app.get('/messages/:handle', async (req, res) => {
 
 app.get('/authenticate/:token', async (req, res) => {
   try{
+    console.log(req.headers)
     const token = req.params.token
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
