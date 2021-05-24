@@ -55,7 +55,8 @@ app.get('/payroll',  async (req, res) => {
       const details = JSON.parse(rows[x].details)
       paychecks.push({check_date: rows[x].check_date, amount : rows[x].amount, details_title : rows[x].details_title, details : details})
     }
-    res.send(paychecks)
+    if(paychecks.length > 0) res.send(paychecks[0])
+    else res.send({})
   }
   catch(err){
     console.log(err)
