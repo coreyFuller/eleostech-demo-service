@@ -5,10 +5,10 @@ const airtable = require('airtable')
 const bodyParser = require('body-parser')
 const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
-const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
 const Airtable = require('airtable');
 const { resolve } = require('path');
+var jwt = require('jwt-simple');
 require('dotenv').config()
 
 var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base('apps8HRr4AqADQR0Q');
@@ -47,13 +47,6 @@ app.get('/db', async (req, res) => {
     }
   })
 
-
-async function getUsers(){
-  const client = await pool.connect();
-  const result = await client.query('SELECT * from "user"');
-  return result.rows
-}
-
 getUserFromAirtable = async() => {
   return new Promise((resolve, reject) => {
     base('Users').find('recvHxhGbysOIfAhb', function(err, record) {
@@ -62,20 +55,6 @@ getUserFromAirtable = async() => {
   });
   })
 }
-
-
-authenticate = async (token) => {
-  var decoded = jwtDecode(token)
-  var users = Object.values(decoded)
-  console.log(users)
-  valid_users = await getUsers()
-  for (x in valid_users){
-    console.log(valid_users[x])
-    if(users.includes(valid_users[x].username)) return true
-  }
-  return false
-}
-
 
 app.get('/user', async (req, res) => {
   const client = await pool.connect();
@@ -172,14 +151,20 @@ app.get('/authenticate/:token', async (req, res) => {
     var users = Object.values(decoded)
     var user = await getUserFromAirtable()
     user = user._rawJson.fields
+
+    var encoded  = jwt.encode({fullname : user.full_name, username: user.username 
+    }, 'secret', 'HS256')
+    console.log(encoded)
+
     const response = { 
       full_name : user.full_name,
-      api_token : token,
+      api_token : encoded,
       menu_code : user.menu_code,
       dashboard_code : user.dashboard_code,
       custom_settings_form_code : user.custom_settings_form_code,
       username : user.username 
     }
+
     res.send(response)
   }
   catch(err){
