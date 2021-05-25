@@ -19,6 +19,17 @@ authenticated = (header_key) => {
   if(header_key == process.env.ELEOS_PLATFORM_KEY) return true
   else return false
 }
+ 
+clean = (obj) => {
+  console.log(obj)
+  for (var propName in obj) {
+    if (obj[propName] === null) {
+      console.log(propName)
+      obj[propName] = false;
+    }
+  }
+  return obj
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -194,18 +205,18 @@ app.get('/loads', async (req, res) => {
       const client = await pool.connect();
       var query_string = 'select * FROM load'
       const result = await client.query(query_string)
-      const rows = result.rows
+      var rows = result.rows
       var response = []
       for(x in rows){
+        rows[x] = clean(rows[x])
         query_string = `SELECT * FROM stop INNER JOIN load_stop ON stop.id = load_stop.stop_id and load_stop.load_id = '${rows[x].id}';`
         const stop_result = await client.query(query_string)
         var stop_rows = stop_result.rows
         var _stops = []
-        console.log(stop_rows)
         for ( i in stop_rows){
           _stops.push({stop_number: stop_rows[i].stop_number, stop_type : stop_rows[i].stop_type, current: stop_rows[i].current, name: stop_rows[i].name, address: stop_rows[i].address, city: stop_rows[i].city, state : stop_rows[i].state, postal_code : stop_rows[i].postal_code, location: stop_rows[i].location, identifiers: stop_rows[i].identifiers})
         }
-        response.push({id: rows[x].id, display_identifier : rows[x].display_identifier, sort: rows[x].sort, order_number: rows[x].order_number, load_status: rows[x].load_status, load_status_label : rows[x].load_status_label, active : rows[x].active, current: rows[x].current, stops : _stops})
+        response.push({id: rows[x].id, display_identifier : rows[x].display_identifier, sort: rows[x].sort, order_number: rows[x].order_number, load_status: rows[x].load_status, load_status_label : rows[x].load_status_label, active : rows[x].active, current: rows[x].current, trip_planner_enabled: rows[x].trip_planner_enabled, enable_location_updates:rows[x].enable_location_updates, stops : _stops})
       }
       res.send(response)
       client.release()      
