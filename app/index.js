@@ -21,19 +21,19 @@ const pool = new Pool({
 });
 
 clean = (obj) => {
-  console.log(obj)
   for (var propName in obj) {
     if (obj[propName] === null) {
-      console.log(propName)
       obj[propName] = false;
     }
   }
   return obj
 }
 
-authenticate = (token) => {
+authenticate = async (token) => {
   var decoded = jwt.decode(token, 'secret', true, 'HS256')
-  return decoded
+  var user = await getUserFromAirtable()
+  if(user._rawJson.fields.username == decoded.username) return true
+  else return false
 }
 
 app.use(express.static(path.join(__dirname,"/public")))
@@ -77,6 +77,9 @@ app.get("/", function (req, res) {
 
 app.get('/payroll',  async (req, res) => {
   try{
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     const client = await pool.connect();
     const result = await client.query(`select * from paycheck`)
     var rows = result.rows
@@ -96,6 +99,9 @@ app.get('/payroll',  async (req, res) => {
 
 app.get('/todos', async(req, res) => {
   try {
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     const client = await pool.connect();
     const result = await client.query(`select * from todo`)
     client.release()
@@ -166,6 +172,9 @@ app.get('/authenticate/:token', async (req, res) => {
 
 app.get('/truck', async (req, res) => {
   try {
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     const client = await pool.connect();
     const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
     var locations = []
@@ -188,6 +197,9 @@ app.get('/truck', async (req, res) => {
 app.get('/driver_status', async (req, res) => {
   const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
   try{
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     var responses = []
     var hos_list = []
     const client = await pool.connect();
@@ -224,9 +236,10 @@ app.get('/stops', async (req, res) => {
 })
 
 app.get('/loads', async (req, res) => {
-  try{
-    console.log(req.headers)
-    console.log(authorization(req.headers.authorization))
+  try{ 
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
       const client = await pool.connect();
       var query_string = 'select * FROM load'
       const result = await client.query(query_string)
