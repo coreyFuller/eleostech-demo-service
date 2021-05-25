@@ -53,6 +53,31 @@ app.get('/db', async (req, res) => {
     }
   })
 
+
+async function getUsers(){
+  const client = await pool.connect();
+  const result = await client.query('SELECT * from "user"');
+  return result.rows
+}
+
+authenticate = async (token) => {
+  var decoded = jwtDecode(token)
+  var users = Object.values(decoded)
+  console.log(users)
+  valid_users = await getUsers()
+  for (x in valid_users){
+    console.log(valid_users[x])
+    if(users.includes(valid_users[x].username)) return true
+  }
+  return false
+}
+
+
+app.get('/user', async (req, res) => {
+  const client = await pool.connect();
+  const result = await client.query('SELECT * from "user"');
+  res.send(result.rows)  
+})
 app.get("/", function (req, res) {
   try{
     res.sendFile(path.join(__dirname, '/public/index.html'));
@@ -202,6 +227,10 @@ app.get('/stops', async (req, res) => {
 
 app.get('/loads', async (req, res) => {
   try{
+      var token = req.headers.authorization.split("=")
+      token = token[1]
+      const authenticated = await(authenticate(token))
+      console.log(authenticated)
       const client = await pool.connect();
       var query_string = 'select * FROM load'
       const result = await client.query(query_string)
