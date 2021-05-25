@@ -227,6 +227,16 @@ app.get('/loads', async (req, res) => {
       }
 })
 
+app.put('/tripchanges/:handle', json_parser, async(req, res) => {
+  try{
+    const handle = req.params.handle
+    res.send({handle : handle})
+  }
+  catch(err){
+    console.log(err)
+    res.send('Error ' + err)  
+  }
+})
 app.put('/messages/:handle', json_parser, async (req, res) => {
   try{
     const client = await pool.connect();
