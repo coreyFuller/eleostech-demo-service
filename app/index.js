@@ -60,11 +60,6 @@ getUserFromAirtable = async() => {
   })
 }
 
-app.get('/user', async (req, res) => {
-  const client = await pool.connect();
-  const result = await client.query('SELECT * from "user"');
-  res.send(result.rows)  
-})
 app.get("/", function (req, res) {
   try{
     res.sendFile(path.join(__dirname, '/public/index.html'));
@@ -220,21 +215,6 @@ app.get('/driver_status', async (req, res) => {
   }
 })
 
-
-app.get('/stops', async (req, res) => {
-  try{
-    const client = await pool.connect();
-    const result = await client.query('SELECT * from stop')
-    console.log(result.rows)
-    res.send(result.rows)
-    client.release()      
-  }
-  catch(err){
-      console.error(err);
-      res.send("Error " + err);
-    }
-})
-
 app.get('/loads', async (req, res) => {
   try{ 
     if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
@@ -267,6 +247,9 @@ app.get('/loads', async (req, res) => {
 
 app.put('/tripchanges/:handle', json_parser, async(req, res) => {
   try{
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     const handle = req.params.handle
     res.send({handle : handle})
   }
@@ -277,6 +260,9 @@ app.put('/tripchanges/:handle', json_parser, async(req, res) => {
 })
 app.put('/messages/:handle', json_parser, async (req, res) => {
   try{
+    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    }
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
     const body = req.body
