@@ -90,6 +90,13 @@ app.get("/", function (req, res) {
 
 app.get('/payroll',  async (req, res) => {
   try{
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     const client = await pool.connect();
     const result = await client.query(`select * from paycheck`)
     var rows = result.rows
@@ -109,6 +116,13 @@ app.get('/payroll',  async (req, res) => {
 
 app.get('/todos', async(req, res) => {
   try {
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     console.log(req.headers)
     const client = await pool.connect();
     const result = await client.query(`select * from todo`)
@@ -168,6 +182,13 @@ app.get('/authenticate/:token', async (req, res) => {
 
 app.get('/truck', async (req, res) => {
   try {
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     const client = await pool.connect();
     const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
     var locations = []
@@ -190,6 +211,13 @@ app.get('/truck', async (req, res) => {
 app.get('/driver_status', async (req, res) => {
   const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
   try{
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     var responses = []
     var hos_list = []
     const client = await pool.connect();
@@ -213,6 +241,13 @@ app.get('/driver_status', async (req, res) => {
 
 app.get('/stops', async (req, res) => {
   try{
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     const client = await pool.connect();
     const result = await client.query('SELECT * from stop')
     console.log(result.rows)
@@ -227,10 +262,13 @@ app.get('/stops', async (req, res) => {
 
 app.get('/loads', async (req, res) => {
   try{
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
       var token = req.headers.authorization.split("=")
       token = token[1]
       const authenticated = await(authenticate(token))
-      console.log(authenticated)
+      if(!authenticated || token === undefined){
+        res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+      }
       const client = await pool.connect();
       var query_string = 'select * FROM load'
       const result = await client.query(query_string)
@@ -268,6 +306,13 @@ app.put('/tripchanges/:handle', json_parser, async(req, res) => {
 })
 app.put('/messages/:handle', json_parser, async (req, res) => {
   try{
+    if(req.headers.authorization === undefined) res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    var token = req.headers.authorization.split("=")
+    token = token[1]
+    const authenticated = await(authenticate(token))
+    if(!authenticated || token === undefined){
+      res.send(401, "Unauthorized due to missing or invalid token and/or API key.")
+    }
     const client = await pool.connect();
     const handle = {"handle":req.params.handle}
     const body = req.body
