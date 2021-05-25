@@ -8,18 +8,12 @@ const json_parser = bodyParser.json()
 const jwt = require('jwt-decode');
 const { default: jwtDecode } = require('jwt-decode');
 const Airtable = require('airtable');
+const { resolve } = require('path');
 require('dotenv').config()
 
+var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base('apps8HRr4AqADQR0Q');
 
-var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
 
-authenticated = (header_key) => {
-  console.log(process.env.ELEOS_PLATFORM_KEY)
-  console.log(header_key)
-  if(header_key == process.env.ELEOS_PLATFORM_KEY) return true
-  else return false
-}
- 
 clean = (obj) => {
   console.log(obj)
   for (var propName in obj) {
@@ -59,6 +53,16 @@ async function getUsers(){
   const result = await client.query('SELECT * from "user"');
   return result.rows
 }
+
+getUserFromAirtable = async() => {
+  return new Promise((resolve, reject) => {
+    base('Users').find('recvHxhGbysOIfAhb', function(err, record) {
+      if (err) { console.error(err); return; }
+      resolve(record)
+  });
+  })
+}
+
 
 authenticate = async (token) => {
   var decoded = jwtDecode(token)
@@ -166,9 +170,15 @@ app.get('/authenticate/:token', async (req, res) => {
     const token = req.params.token
     var decoded = jwtDecode(token)
     var users = Object.values(decoded)
+    var user = await getUserFromAirtable()
+    user = user._rawJson.fields
     const response = { 
-      "api_token" : token,
-      "full_name" : users[1]
+      full_name : user.full_name,
+      api_token : token,
+      menu_code : user.menu_code,
+      dashboard_code : user.dashboard_code,
+      custom_settings_form_code : user.custom_settings_form_code,
+      username : user.username 
     }
     res.send(response)
   }
