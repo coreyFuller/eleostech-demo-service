@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const airtable = require('airtable')
 const bodyParser = require('body-parser')
 const { Pool, Query } = require('pg');
 const json_parser = bodyParser.json()
@@ -113,7 +112,6 @@ app.get('/todos', async(req, res) => {
     console.log(err)
     res.send('Error ' + err)
   }
-
 })
 
 app.get('/messages', async (req, res) => {
@@ -145,7 +143,6 @@ app.get('/authenticate/:token', async (req, res) => {
 
     var encoded  = jwt.encode({fullname : user.full_name, username: user.username 
     }, 'secret', 'HS256')
-    console.log(encoded)
 
     const response = { 
       full_name : user.full_name,
@@ -190,7 +187,6 @@ app.get('/truck', async (req, res) => {
 
 
 app.get('/driver_status', async (req, res) => {
-  const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
   try{
     if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
       res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
@@ -198,6 +194,7 @@ app.get('/driver_status', async (req, res) => {
     var responses = []
     var hos_list = []
     const client = await pool.connect();
+    const query_string = 'select * from driver_status, hours_of_service where driver_status.id = hours_of_service.driver_id'
     const result = await client.query(query_string)
     var rows = result.rows
     for(x in rows){
