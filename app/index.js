@@ -171,18 +171,17 @@ app.get('/authenticate/:token', async (req, res) => {
 
 app.get('/truck', async (req, res) => {
   try {
-    if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
-      res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
-    }
+    // if(req.headers.authorization == undefined || !await authenticate(req.headers.authorization.split("=")[1]) ){
+    //   res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
+    // }
     const client = await pool.connect();
-    const result = await client.query('select * from mytruck, "location" where location.id = mytruck.location_id')
-    var locations = []
+    const result = await client.query('select * from mytruck')
     var responses = []
     const rows = result.rows
     for(x in rows){
-      locations.push({latitude: rows[x].latitude, longitude: rows[x].longitude})
-      responses.push({summary: rows[x].summary, name : rows[x].truck_name, location : {latitude: Number(rows[x].latitude), longitude: Number(rows[x].longitude)}})
+      responses.push({summary: rows[x].summary, name : rows[x].truck_name, location : rows[x].location})
     }
+    console.log(responses[0])
     if(responses.length > 0) res.send(responses[0])
     else res.send({})
   }
