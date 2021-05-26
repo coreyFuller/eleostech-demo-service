@@ -12,3 +12,13 @@
 
 #### /authenticate
 
+#### /payroll
+
+#### /todos
+
+#### /truck
+
+#### /driver_status
+
+#### /tripchanges
+
