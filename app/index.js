@@ -10,7 +10,7 @@ const { resolve } = require('path');
 var jwt = require('jwt-simple');
 require('dotenv').config()
 
-var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base('apps8HRr4AqADQR0Q');
+var base = new Airtable({apiKey: `${process.env.AIRTABLE_APIKEY}`}).base(process.env.AIRTABLE_BASE);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -29,7 +29,7 @@ clean = (obj) => {
 }
 
 authenticate = async (token) => {
-  var decoded = jwt.decode(token, 'secret', true, 'HS256')
+  var decoded = jwt.decode(token, process.env.SECRET, true, 'HS256')
   var user = await getUserFromAirtable()
   if(user._rawJson.fields.username == decoded.username) return true
   else return false
@@ -52,7 +52,7 @@ app.get('/db', async (req, res) => {
 
 getUserFromAirtable = async() => {
   return new Promise((resolve, reject) => {
-    base('Users').find('recvHxhGbysOIfAhb', function(err, record) {
+    base('Users').find(process.env.AIRTABLE_USER, function(err, record) {
       if (err) { console.error(err); return; }
       resolve(record)
   });
@@ -142,7 +142,7 @@ app.get('/authenticate/:token', async (req, res) => {
     user = user._rawJson.fields
 
     var encoded  = jwt.encode({fullname : user.full_name, username: user.username 
-    }, 'secret', 'HS256')
+    }, process.env.SECRET, 'HS256')
 
     const response = { 
       full_name : user.full_name,
