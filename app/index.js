@@ -115,9 +115,16 @@ app.get('/todos', async(req, res) => {
 })
 
 app.get('/messages', async (req, res) => {
+  try{
   const client = await pool.connect();
   const result = await client.query(`select body from message`)
   res.send(result.rows)
+  client.release()
+  }
+  catch(err){
+    console.log(err)
+    res.send('Error ' + err)
+  }
 })
 
 app.get('/messages/:handle', async (req, res) => {
