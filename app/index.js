@@ -248,7 +248,12 @@ app.put('/tripchanges/:handle', json_parser, async(req, res) => {
       res.send(401, '401 Unauthorized due to missing or invalid token and/or API key.')
     }
     const handle = req.params.handle
+    const body = req.body
+    const client = await pool.connect();
+    const query_string = `insert into "trip-change" values ('${handle}', '${body.username}', '${body.load_id}', '${body.timestamp}', '${JSON.stringify(body.location)}','${JSON.stringify(body.trip_policy_results)}', '${body.type}', '${JSON.stringify(body.new_location)}',${body.stop_number},'${body.name}','${body.address}','${body.postal_code}','${body.state}', '${body.city}', '${body.crowd_sourced}','${JSON.stringify(body.current_location)}','${body.accuracy}','${body.error_code}', ${body.from_poi})`
+    client.query(query_string)
     res.send({handle : handle})
+    client.release()
   }
   catch(err){
     console.log(err)
