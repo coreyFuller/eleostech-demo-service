@@ -159,7 +159,7 @@ app.get('/authenticate/:token', async (req, res) => {
       custom_settings_form_code : user.custom_settings_form_code,
       username : user.username 
     }
-
+    console.log(response)
     res.send(response)
   }
   catch(err){
