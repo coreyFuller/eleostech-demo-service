@@ -148,7 +148,7 @@ app.get('/authenticate/:token', async (req, res) => {
     var user = await getUserFromAirtable()
     user = user._rawJson.fields
 
-    var encoded  = jwt.encode({fullname : user.full_name, username: user.username , token
+    var encoded  = jwt.encode({fullname : user.full_name, username: user.username
     }, process.env.SECRET, 'HS256')
 
     const response = { 
